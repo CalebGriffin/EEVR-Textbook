@@ -9,6 +9,8 @@ public class ButtonController : MonoBehaviour
 
     [SerializeField] Button[] contentsPageButtons;
 
+    [SerializeField] Button contentsPageButton;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,19 +20,34 @@ public class ButtonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (autoFlip.ControledBook.currentPage != 0)
+        if (autoFlip.isFlipping)
         {
-            foreach (Button button in contentsPageButtons)
-            {
-                button.interactable = false;
-            }
+            SetContentsPageButtons(false);
+            contentsPageButton.interactable = false;
         }
         else
         {
-            foreach (Button button in contentsPageButtons)
-            {
-                button.interactable = true;
-            }
+            SetContentsPageButtons(true);
+            contentsPageButton.interactable = true;
+        }
+
+        if (autoFlip.ControledBook.currentPage != 0)
+        {
+            contentsPageButton.gameObject.SetActive(true);
+            SetContentsPageButtons(false);
+        }
+        else
+        {
+            contentsPageButton.gameObject.SetActive(false);
+            SetContentsPageButtons(true);
+        }
+    }
+
+    void SetContentsPageButtons(bool to)
+    {
+        foreach (Button button in contentsPageButtons)
+        {
+            button.interactable = to;
         }
     }
 }
